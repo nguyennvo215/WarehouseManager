@@ -1,0 +1,31 @@
+<form novalidate #form="ngForm" (submit)="dispatchProduct(form)">
+    <h3>Dispatch Product</h3>
+    <div class="form-group">
+        <label>Id</label>
+        <input type="number" class="form-control form-control-lg" placeholder="Id" 
+        name="id" #capacity="ngModel" [(ngModel)]="service.formData.id" required>
+    </div>
+    <div class="form-group">
+        <label>Quantity</label>
+        <input type="number" class="form-control form-control-lg" placeholder="Quantity" 
+        name="quantity" #quantity="ngModel" [(ngModel)]="service.formData.quantity" required>
+    </div>
+    <div class="form-group">
+        <div class="form-row">
+            <div class="form-group">
+                <a href="/">Create</a>
+            </div>
+            <div class="form-group">
+                <a href="/cap">Set Cap</a>
+            </div>
+            <div class="form-group">
+                <a href="/receive">Receive</a>
+            </div>
+            <div class="form-group">
+                <a href="/dispatch">Dispatch</a>
+            </div>
+        </div>
+        <button class="btn btn-info btn-lg btn-block" type="submit" [disabled]="form.invalid"
+        style="float: right;">Submit</button>
+    </div>
+</form>

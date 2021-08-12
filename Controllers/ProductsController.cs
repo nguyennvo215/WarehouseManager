@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WarehouseManager.Data;
+using WarehouseManager.Model;
+using WarehouseManager.Models;
 using WarehouseManager.ViewModel;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -30,8 +32,33 @@ namespace WarehouseManager.Controllers
                 .ToListAsync();
         }
 
+        [HttpPost]
+        public async Task<ActionResult<ProductViewModel>> AddProducts(ProductCreateRequest productCreateRequest)
+        {
+            if (productCreateRequest.Capacity <= 0)
+            {
+                return BadRequest("Not Positive Quantity");
+            }
+
+            if (productCreateRequest.Capacity < productCreateRequest.Quantity)
+            {
+                return BadRequest("Quantity Too Low");
+            }
+
+            var product = new Product
+            {
+                Capacity = productCreateRequest.Capacity,
+                Quantity = productCreateRequest.Quantity
+            };
+
+            _context.Products.Add(product);
+            await _context.SaveChangesAsync();
+
+            return Ok();
+        }
+
         [HttpPut("SetCapacity/{id}")]
-        public async Task<ActionResult> SetProductCapacity(int id, int capacity)
+        public async Task<ActionResult> SetProductCapacity(int id, ProductCreateRequest productCreateRequest)
         {
             var product = await _context.Products.FindAsync(id);
 
@@ -40,24 +67,24 @@ namespace WarehouseManager.Controllers
                 return NotFound("Product not found");
             }
 
-            if (capacity <= 0)
+            if (productCreateRequest.Capacity <= 0)
             {
                 return BadRequest("Not Positive Quantity");
             }
 
-            if (capacity < product.Quantity)
+            if (productCreateRequest.Capacity < product.Quantity)
             {
                 return BadRequest("Quantity Too Low");
             }
 
-            product.Capacity = capacity;
+            product.Capacity = productCreateRequest.Capacity;
             await _context.SaveChangesAsync();
 
             return Ok();
         }
 
         [HttpPut("Receive/{id}")]
-        public async Task<ActionResult> ReceiveProduct(int id, int quantity)
+        public async Task<ActionResult> ReceiveProduct(int id, ProductCreateRequest productCreateRequest)
         {
             var product = await _context.Products.FindAsync(id);
 
@@ -66,12 +93,12 @@ namespace WarehouseManager.Controllers
                 return NotFound();
             }
 
-            if (quantity <= 0)
+            if (productCreateRequest.Quantity <= 0)
             {
                 return BadRequest("Not Positive Quantity");
             }
 
-            var checkSum = product.Quantity + quantity;
+            var checkSum = product.Quantity + productCreateRequest.Quantity;
             if (checkSum > product.Capacity)
             {
                 return BadRequest("Quantity Too High");
@@ -85,7 +112,7 @@ namespace WarehouseManager.Controllers
         }
 
         [HttpPut("Dispatch/{id}")]
-        public async Task<ActionResult> DispatchProduct(int id, int quantity)
+        public async Task<ActionResult> DispatchProduct(int id, ProductCreateRequest productCreateRequest)
         {
             var product = await _context.Products.FindAsync(id);
 
@@ -94,13 +121,13 @@ namespace WarehouseManager.Controllers
                 return NotFound();
             }
 
-            if(quantity <= 0)
+            if(productCreateRequest.Quantity <= 0)
             {
                 return BadRequest("Not Positive Quantity");
             }
 
 
-            var checkDifference = product.Quantity - quantity;
+            var checkDifference = product.Quantity - productCreateRequest.Quantity;
             if (checkDifference < 0)
             {
                 return BadRequest("Quantity Too High");                

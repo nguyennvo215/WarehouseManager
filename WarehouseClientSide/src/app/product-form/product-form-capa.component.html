@@ -1,0 +1,31 @@
+<form novalidate #form="ngForm" (submit)="setCap(form)">
+    <h3>Set Product Capacity</h3>
+    <div class="form-group">
+        <label>Id</label>
+        <input type="number" class="form-control form-control-lg" placeholder="Id" 
+        name="id" #capacity="ngModel" [(ngModel)]="service.formData.id" required>
+    </div>
+    <div class="form-group">
+        <label>Capacity</label>
+        <input type="number" class="form-control form-control-lg" placeholder="Capacity" 
+        name="capacity" #quantity="ngModel" [(ngModel)]="service.formData.capacity" required>
+    </div>
+    <div class="form-group">
+        <div class="form-row">
+            <div class="form-group">
+                <a href="/">Create</a>
+            </div>
+            <div class="form-group">
+                <a href="/cap">Set Cap</a>
+            </div>
+            <div class="form-group">
+                <a href="/receive">Receive</a>
+            </div>
+            <div class="form-group">
+                <a href="/dispatch">Dispatch</a>
+            </div>
+        </div>
+        <button class="btn btn-info btn-lg btn-block" type="submit" [disabled]="form.invalid"
+        style="float: right;">Submit</button>
+    </div>
+</form>

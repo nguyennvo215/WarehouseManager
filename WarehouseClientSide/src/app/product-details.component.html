@@ -1,0 +1,29 @@
+<div class="jumbotron">
+    <h1 class="display-4 text-center">Warehouse Product</h1>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <router-outlet></router-outlet>
+    </div>
+    <div class="col-md-6">
+        <span>List of products</span>
+        <table class="table">
+            <thead class="thead-light">
+                <tr>
+                    <th>Id</th>
+                    <th>Capacity</th>
+                    <th>Quantity</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let pd of service.list">
+                    <td>{{pd.id}}</td>
+                    <td>{{pd.capacity}}</td>
+                    <td>{{pd.quantity}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+

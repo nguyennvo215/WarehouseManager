@@ -29,11 +29,18 @@ namespace WarehouseManager
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WarehouseManager", Version = "v1" });
             });
+            services.AddCors();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseCors(options =>
+            options.WithOrigins("http://localhost:4200")
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            );
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
