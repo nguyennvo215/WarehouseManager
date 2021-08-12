@@ -22,11 +22,13 @@ The project will start and the DbInitializer will automatically seed the data in
 # How to Run
 
 **Run Backend**
+
 First you need to start the Backend of the project or also called the server side by opening the .sln and run from there or use the command line
 
 `dotnet run`
 
 **Run Frontend**
+
 Then you need to start the Frontend of the project or also called the client side by going to the directory "WarehouseClientSide" in the solution folder.
 Run the command line:
 
